@@ -9,5 +9,4 @@ public class Spring6ReactiveApplication {
     public static void main(String[] args) {
         SpringApplication.run(Spring6ReactiveApplication.class, args);
     }
-
 }
