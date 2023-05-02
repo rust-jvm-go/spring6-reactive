@@ -1,4 +1,4 @@
-package initiative.guru.spring6plus.spring6reactive.domain;
+package initiative.guru.spring6plus.spring6reactive.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

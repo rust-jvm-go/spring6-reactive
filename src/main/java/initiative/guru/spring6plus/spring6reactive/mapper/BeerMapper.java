@@ -1,7 +1,7 @@
 package initiative.guru.spring6plus.spring6reactive.mapper;
 
-import initiative.guru.spring6plus.spring6reactive.domain.Beer;
-import initiative.guru.spring6plus.spring6reactive.model.BeerDTO;
+import initiative.guru.spring6plus.spring6reactive.domain.model.Beer;
+import initiative.guru.spring6plus.spring6reactive.domain.dto.BeerDTO;
 import org.mapstruct.Mapper;
 
 @Mapper

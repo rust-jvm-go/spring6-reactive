@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest;
 import org.springframework.context.annotation.Import;
 
 import initiative.guru.spring6plus.spring6reactive.config.DatabaseConfig;
-import initiative.guru.spring6plus.spring6reactive.domain.Beer;
+import initiative.guru.spring6plus.spring6reactive.domain.model.Beer;
 
 import java.math.BigDecimal;
 

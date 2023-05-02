@@ -1,7 +1,7 @@
 package initiative.guru.spring6plus.spring6reactive.service;
 
 import initiative.guru.spring6plus.spring6reactive.mapper.BeerMapper;
-import initiative.guru.spring6plus.spring6reactive.model.BeerDTO;
+import initiative.guru.spring6plus.spring6reactive.domain.dto.BeerDTO;
 import initiative.guru.spring6plus.spring6reactive.repository.BeerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -83,7 +83,7 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public Flux<BeerDTO> listBeers() {
+    public Flux<BeerDTO> getBeers() {
         return beerRepository.findAll()
                 .map(beerMapper::beerToBeerDto);
     }

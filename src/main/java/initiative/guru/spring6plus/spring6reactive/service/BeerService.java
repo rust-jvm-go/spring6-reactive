@@ -1,12 +1,12 @@
 package initiative.guru.spring6plus.spring6reactive.service;
 
-import initiative.guru.spring6plus.spring6reactive.model.BeerDTO;
+import initiative.guru.spring6plus.spring6reactive.domain.dto.BeerDTO;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface BeerService {
 
-    Flux<BeerDTO> listBeers();
+    Flux<BeerDTO> getBeers();
 
     Mono<BeerDTO> getBeerById(Integer beerId);
 

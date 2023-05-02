@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import initiative.guru.spring6plus.spring6reactive.domain.Beer;
+import initiative.guru.spring6plus.spring6reactive.domain.model.Beer;
 import initiative.guru.spring6plus.spring6reactive.repository.BeerRepository;
 
 import java.math.BigDecimal;

@@ -1,6 +1,6 @@
 package initiative.guru.spring6plus.spring6reactive.repository;
 
-import initiative.guru.spring6plus.spring6reactive.domain.Person;
+import initiative.guru.spring6plus.spring6reactive.domain.model.Person;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
