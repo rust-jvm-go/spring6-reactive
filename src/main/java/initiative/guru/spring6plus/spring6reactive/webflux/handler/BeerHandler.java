@@ -19,6 +19,9 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 @RequiredArgsConstructor
 public class BeerHandler {
 
+    private final static String beerId = "beerId";
+    private final static String msgNoRecords = "{\"message\": \"No records found.\"}";
+
     private final BeerService beerService;
 
     public Mono<ServerResponse> getBeers(ServerRequest request) {
@@ -33,7 +36,7 @@ public class BeerHandler {
                         if (found) {
                             return ServerResponse.from(response).body(beerDTOs, BeerDTO.class);
                         }
-                        return ServerResponse.from(response).body(BodyInserters.fromValue("{\"message\": \"No records found.\"}"));
+                        return ServerResponse.from(response).body(BodyInserters.fromValue(msgNoRecords));
                     });
             });
     }
@@ -43,14 +46,14 @@ public class BeerHandler {
             .contentType(MediaType.APPLICATION_JSON)
             .location(URI.create(request.path())).build()
             .flatMap(response -> {
-                Mono<BeerDTO> beerDto = beerService.getBeerById(Integer.valueOf(request.pathVariable("beerId")));
+                Mono<BeerDTO> beerDto = beerService.getBeerById(Integer.valueOf(request.pathVariable(beerId)));
                 return beerDto
                     .hasElement()
                     .flatMap(found -> {
                         if (found) {
                             return ServerResponse.from(response).body(beerDto, BeerDTO.class);
                         }
-                        return ServerResponse.from(response).body(BodyInserters.fromValue("{\"message\": \"No record found.\"}"));
+                        return ServerResponse.from(response).body(BodyInserters.fromValue(msgNoRecords));
                     });
             });
     }
@@ -66,7 +69,7 @@ public class BeerHandler {
 
     public Mono<ServerResponse> updateExistingBeer(ServerRequest request) {
         return request.bodyToMono(BeerDTO.class)
-            .flatMap(beerDto -> beerService.updateBeer(Integer.valueOf(request.pathVariable("beerId")), beerDto))
+            .flatMap(beerDto -> beerService.updateBeer(Integer.valueOf(request.pathVariable(beerId)), beerDto))
             .flatMap(updatedBeer ->
                 ServerResponse.ok()
                     .contentType(MediaType.APPLICATION_JSON)
@@ -76,7 +79,7 @@ public class BeerHandler {
 
     public Mono<ServerResponse> patchExistingBeer(ServerRequest request) {
         return request.bodyToMono(BeerDTO.class)
-            .flatMap(beerDto -> beerService.patchBeer(Integer.valueOf(request.pathVariable("beerId")), beerDto))
+            .flatMap(beerDto -> beerService.patchBeer(Integer.valueOf(request.pathVariable(beerId)), beerDto))
             .flatMap(updatedBeer ->
                 ServerResponse.ok()
                     .contentType(MediaType.APPLICATION_JSON)
@@ -85,10 +88,13 @@ public class BeerHandler {
     }
 
     public Mono<ServerResponse> deleteById(ServerRequest request) {
+        int id = Integer.parseInt(request.pathVariable(beerId));
         return ok()
             .contentType(MediaType.APPLICATION_JSON)
             .location(URI.create(request.path()))
-            .build(beerService.deleteBeerById(Integer.valueOf(request.pathVariable("beerId"))))
-            .switchIfEmpty(ServerResponse.notFound().build());
+            .build(beerService.deleteBeerById(Integer.valueOf(request.pathVariable(beerId))))
+            .switchIfEmpty(ServerResponse.notFound().build())
+            .flatMap(response -> ServerResponse.from(response)
+                .body(BodyInserters.fromValue("{\"message\": \"Record "+ id +" deleted.\"}")));
     }
 }

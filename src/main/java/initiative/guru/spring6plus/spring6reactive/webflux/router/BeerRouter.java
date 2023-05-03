@@ -14,17 +14,17 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 public class BeerRouter {
 
     public static final String BEER_BASE_URL = "/api/v2/beer";
-    public static final String BEER_PATH_ID = "/{beerId}";
+    public static final String BEER_PATH_ID = BEER_BASE_URL + "/{beerId}";
 
     @Bean
-    public RouterFunction<ServerResponse> route(BeerHandler beerHandler) {
+    public RouterFunction<ServerResponse> routes(BeerHandler beerHandler) {
 
         return RouterFunctions
                 .route(GET(BEER_BASE_URL).and(accept(MediaType.TEXT_PLAIN)), beerHandler::getBeers)
-                .andRoute(GET(BEER_BASE_URL + BEER_PATH_ID).and(accept(MediaType.TEXT_PLAIN)), beerHandler::getBeerById)
+                .andRoute(GET(BEER_PATH_ID).and(accept(MediaType.TEXT_PLAIN)), beerHandler::getBeerById)
                 .andRoute(POST(BEER_BASE_URL).and(accept(MediaType.APPLICATION_JSON)), beerHandler::createNewBeer)
-                .andRoute(PUT(BEER_BASE_URL + BEER_PATH_ID).and(accept(MediaType.APPLICATION_JSON)), beerHandler::updateExistingBeer)
-                .andRoute(PATCH(BEER_BASE_URL + BEER_PATH_ID).and(accept(MediaType.APPLICATION_JSON)), beerHandler::patchExistingBeer)
-                .andRoute(DELETE(BEER_BASE_URL + BEER_PATH_ID).and(accept(MediaType.TEXT_PLAIN)), beerHandler::deleteById);
+                .andRoute(PUT(BEER_PATH_ID).and(accept(MediaType.APPLICATION_JSON)), beerHandler::updateExistingBeer)
+                .andRoute(PATCH(BEER_PATH_ID).and(accept(MediaType.APPLICATION_JSON)), beerHandler::patchExistingBeer)
+                .andRoute(DELETE(BEER_PATH_ID).and(accept(MediaType.TEXT_PLAIN)), beerHandler::deleteById);
     }
 }
