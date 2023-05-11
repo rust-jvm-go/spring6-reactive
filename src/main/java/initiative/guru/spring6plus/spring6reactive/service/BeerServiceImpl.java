@@ -1,9 +1,9 @@
 package initiative.guru.spring6plus.spring6reactive.service;
 
-import initiative.guru.spring6plus.spring6reactive.mapper.BeerMapper;
 import initiative.guru.spring6plus.spring6reactive.domain.dto.BeerDTO;
+import initiative.guru.spring6plus.spring6reactive.mapper.BeerMapper;
 import initiative.guru.spring6plus.spring6reactive.repository.BeerRepository;
-import initiative.guru.spring6plus.spring6reactive.service.validator.BeerValidator;
+import initiative.guru.spring6plus.spring6reactive.service.validator.CustomValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -16,19 +16,21 @@ public class BeerServiceImpl implements BeerService {
     private final BeerRepository beerRepository;
     private final BeerMapper beerMapper;
 
-    private final BeerValidator beerValidator;
+    private final CustomValidator customValidator;
 
     @Override
     public Mono<Void> deleteBeerById(Integer beerId) {
-        return beerRepository.deleteById(beerId);
+        return beerRepository.deleteById(beerId)
+            .switchIfEmpty(Mono.empty());
     }
 
     @Override
     public Mono<BeerDTO> patchBeer(Integer beerId, BeerDTO beerDTO) {
 
         return beerRepository.findById(beerId)
+            .switchIfEmpty(Mono.empty())
             .map(foundBeer -> beerMapper.patchBeer(foundBeer, beerDTO))  // Uses conditional mappings
-            .doOnNext(beerValidator::validate)
+            .doOnNext(customValidator::validate)
             .flatMap(beerRepository::save)
             .map(beerMapper::beerToBeerDto);
     }
@@ -37,8 +39,9 @@ public class BeerServiceImpl implements BeerService {
     public Mono<BeerDTO> updateBeer(Integer beerId, BeerDTO beerDTO) {
 
         return beerRepository.findById(beerId)
+            .switchIfEmpty(Mono.empty())
             .map(foundBeer -> beerMapper.updateBeer(foundBeer, beerDTO))  // Uses conditional mappings
-            .doOnNext(beerValidator::validate)
+            .doOnNext(customValidator::validate)
             .flatMap(beerRepository::save)
             .map(beerMapper::beerToBeerDto);
     }

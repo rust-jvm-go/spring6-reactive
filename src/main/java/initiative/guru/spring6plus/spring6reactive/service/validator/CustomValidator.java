@@ -1,6 +1,5 @@
 package initiative.guru.spring6plus.spring6reactive.service.validator;
 
-import initiative.guru.spring6plus.spring6reactive.domain.model.Beer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -13,14 +12,14 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class BeerValidator {
+public class CustomValidator {
 
     private final Validator validator;
 
-    public void validate(Beer beer) {
+    public <T> void validate(T object) {
 
-        Errors errors = new BeanPropertyBindingResult(beer, "beer");
-        validator.validate(beer, errors);
+        Errors errors = new BeanPropertyBindingResult(object, object.getClass().getName());
+        validator.validate(object, errors);
 
         if (errors.hasErrors()) {
 
