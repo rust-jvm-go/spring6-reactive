@@ -3,10 +3,12 @@ package initiative.guru.spring6plus.spring6reactive.mapper;
 import initiative.guru.spring6plus.spring6reactive.domain.model.Beer;
 import initiative.guru.spring6plus.spring6reactive.domain.dto.BeerDTO;
 import org.mapstruct.*;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
 @Mapper
+@Component
 public interface BeerMapper {
 
     @Mapping(target = "id", ignore = true)
