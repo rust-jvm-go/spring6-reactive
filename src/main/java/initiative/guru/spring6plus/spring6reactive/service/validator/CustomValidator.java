@@ -23,13 +23,7 @@ public class CustomValidator {
 
         if (bindingResult.hasErrors()) {
 
-            Method method;
-            try {
-                method = this.getClass().getMethod("validate", Object.class);
-            } catch (NoSuchMethodException e) {
-                throw new RuntimeException(e);
-            }
-
+            Method method = this.getClass().getMethods()[0];
             MethodParameter parameter = new MethodParameter(method, -1);
 
             throw new WebExchangeBindException(parameter, bindingResult);
